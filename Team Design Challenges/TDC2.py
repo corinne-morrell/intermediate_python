@@ -49,10 +49,10 @@ def plotHeaviside():
     plt.grid()
 
 def main():
-    a = 1
-    b = 1
-    c = 0
-    d = 0
+    a = float(input('Amplitude:'))
+    b = float(input('Cycles:'))
+    c = float(input('Horizontal Shift:'))
+    d = float(input('Vertical Shift:'))
     plotSine(a, b, c, d)   
     plotHeaviside()
     plt.show()
