@@ -1,3 +1,4 @@
+  
 # Cori Hatley
 # 09-08-20
 # Visualize the trajectory of a ballistic projectile using functions and matplotlib
@@ -10,14 +11,6 @@ import matplotlib.pyplot as plt
 def calcLanding_time(v, theta, g):
     landing_time = (2 * v * math.sin(theta)) / g
     return landing_time
-
-def calcMax_height(v, theta, g):
-    max_height = ((np.abs(v))**2 * (math.sin(theta))**2) / (2 * g)
-    return max_height
-
-def calcX_final(x, v, theta, t):
-    x_final = x + (v * math.cos(theta) * t)
-    return x_final
 
 def calcHorizontal_position(x, v, theta, t):
     x_current = x + (v * math.cos(theta) * t)
@@ -36,20 +29,17 @@ def main():
     launch_angle = angle_degrees * (math.pi / 180.0)
 
     landing_time = calcLanding_time(v_init, launch_angle, acc_gravity)
+    print(landing_time)
     time = np.linspace(0, landing_time, 20)
-    max_height = calcMax_height(v_init, launch_angle, acc_gravity)
-    x_final = calcX_final(x_init, v_init, launch_angle, landing_time)
 
-    x_path = calcHorizontal_position(x_init, v_init, launch_angle, time)
-    y_path = calcVertical_position(y_init, v_init, launch_angle, time, acc_gravity)
+    x1 = calcHorizontal_position(x_init, v_init, launch_angle, time)
+    y1 = calcVertical_position(y_init, v_init, launch_angle, time, acc_gravity)
 
     plt.figure('Ballistic Projectile Figure')
     plt.title('Trajectory of a Ballistic Projectile')
     plt.xlabel('Horizontal Position (m)')
     plt.ylabel('Vertical Position (m)')
-    plt.xlim(0, 1.1*x_final)
-    plt.ylim(0, 1.1*max_height)
-    plt.plot(x_path, y_path)
+    plt.plot(x1, y1)
     plt.grid()
     plt.show()
 
