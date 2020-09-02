@@ -60,12 +60,15 @@ def main():
     # Label figure and plot trajectory on a grid
     plt.figure('Ballistic Projectile Figure')
     plt.title('Trajectory of a Ballistic Projectile')
-    plt.xlabel('Horizontal Position (m)')
-    plt.ylabel('Vertical Position (m)')
+    plt.text(x_final/4, max_height/4,
+    f'Initial velocity: {v_init} m/s\nLaunch angle: {angle_degrees} \N{DEGREE SIGN}\nMaximum height: {round(max_height, 2)} m\nMaximum range: {round(x_final, 2)} m\nTotal time: {round(landing_time,2)} s')
+    plt.xlabel('Range (m)')
+    plt.ylabel('Height (m)')
     plt.xlim(0, 1.05*x_final)
     plt.ylim(0, 1.05*max_height)
     plt.plot(x_path, y_path)
     plt.grid()
     plt.show()
+
 
 main()
