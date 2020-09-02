@@ -1,6 +1,7 @@
 # Cori Hatley
 # 09-08-20
 # Visualize the trajectory of a ballistic projectile using functions and matplotlib
+# To run, enter python Lab2.py then enter initial velocity and launch angle
 
 
 import math
@@ -9,32 +10,38 @@ import matplotlib.pyplot as plt
 
 def calcLanding_time(v, theta, g):
     ''' Returns landing time of projectile given initial velocity,
-    launch angle, and magnitude of acceleration due to gravity '''
+    launch angle, and magnitude of acceleration due to gravity. Return value
+    is used as the endpoint for the range of time values required
+    to calculate the path of the projectile. '''
     landing_time = (2 * v * math.sin(theta)) / g
     return landing_time
 
 def calcMax_height(v, theta, g):
     ''' Returns maximum height of projectile given initial velocity,
-    launch angle, and magnitude of acceleration due to gravity '''
+    launch angle, and magnitude of acceleration due to gravity. Return value
+    is used to set window height. '''
     max_height = ((np.abs(v))**2 * (math.sin(theta))**2) / (2 * g)
     return max_height
 
 def calcX_final(x, v, theta, t):
     ''' Returns final horizontal position of projectile given
-    initial position, initial velocity, launch angle, and landing time '''
+    initial position, initial velocity, launch angle, and landing time. Return
+    value is used to set window width. '''
     x_final = x + (v * math.cos(theta) * t)
     return x_final
 
 def calcHorizontal_position(x, v, theta, t):
     ''' Returns current horizontal position given initial position,
-    initial velocity, launch angle, and variable time '''
+    initial velocity, launch angle, and variable time. Return value is used
+    to plot the x coordinates of the projectile's path. '''
     x_current = x + (v * math.cos(theta) * t)
     return x_current
 
 def calcVertical_position(y, v, theta, t, g):
     ''' Returns current vertical position given initial position,
     initial velocity, launch angle, variable time, and acceleration
-    due to gravity '''
+    due to gravity. Return value is used to plot the y coordinates
+    of the projectile's path. '''
     y_current = y + (v * math.sin(theta) * t) - (0.5 * g * t**2)
     return y_current
     
