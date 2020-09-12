@@ -83,6 +83,8 @@ def main():
     plt.plot(time, cheetah_path)
     plt.plot(time, gazelle_path)
     plt.legend(['Cheetah', 'Gazelle'])
+
+
     plt.grid(True)
     plt.show()
 
