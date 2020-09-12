@@ -6,18 +6,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-'''def calcTime():
-    time_current = [0.0]
-    delta_time = 0.1
-    cycles = 20
-
-    for t in range (0, cycles):
-        updated_time = time_current[t] + delta_time
-        time_current.append(updated_time)
-    
-    return time_current
-    '''
-
 def trajectoryCheetah():
     time_current = [0.0]
     acc_current_cheetah = [10.0]
@@ -46,13 +34,9 @@ def trajectoryCheetah():
 
         updated_dis_cheetah = dis_init_cheetah + vel_current_cheetah[t] * delta_time
         dis_current_cheetah.append(updated_dis_cheetah)
+        dis_init_cheetah = updated_dis_cheetah
 
     return dis_current_cheetah
-
-    #print(time_current)
-    #print(acc_current_cheetah)
-    #print(vel_current_cheetah)
-    #print(dis_current_cheetah)
 
 def trajectoryGazelle():
     time_current = [0.0]
@@ -82,13 +66,9 @@ def trajectoryGazelle():
 
         updated_dis_gazelle = dis_init_gazelle + vel_current_gazelle[t] * delta_time
         dis_current_gazelle.append(updated_dis_gazelle)
+        dis_init_gazelle = updated_dis_gazelle
 
     return dis_current_gazelle
-
-    #print(time_current)
-    #print(acc_current_gazelle)
-    #print(vel_current_gazelle)
-    #print(dis_current_gazelle)
 
 def main():
 
