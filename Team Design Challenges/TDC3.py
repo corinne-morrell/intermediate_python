@@ -31,24 +31,24 @@ def main():
     player_choice = (input('Rock, paper, or scissors?')).lower()
     if player_choice not in throw_options:
         print('You must choose either rock, paper, or scissors. Try again.')
-    
-    # Randomly generate the computer's choice
-    cpu_choice = random.choice(throw_options)
-
-    # Call functions to print the user's and computer's choices to the terminal
-    throwPlayer(player_choice)
-    throwCPU(cpu_choice)
-
-    # Determine outcome of the game
-    if cpu_choice == player_choice:
-        print('It\'s a tie. Try again.')
-    elif cpu_choice == 'rock' and player_choice == 'scissors':
-        print('The computer wins.')
-    elif cpu_choice == 'paper' and player_choice == 'rock':
-        print('The computer wins.')
-    elif cpu_choice == 'scissors' and player_choice == 'paper':
-        print('The computer wins.')
     else:
-        print('You win!')
+        # Randomly generate the computer's choice
+        cpu_choice = random.choice(throw_options)
+
+        # Call functions to print the user's and computer's choices to the terminal
+        throwPlayer(player_choice)
+        throwCPU(cpu_choice)
+
+        # Determine outcome of the game
+        if cpu_choice == player_choice:
+            print('It\'s a tie. Try again.')
+        elif cpu_choice == 'rock' and player_choice == 'scissors':
+            print('The computer wins.')
+        elif cpu_choice == 'paper' and player_choice == 'rock':
+            print('The computer wins.')
+        elif cpu_choice == 'scissors' and player_choice == 'paper':
+            print('The computer wins.')
+        else:
+            print('You win!')
 
 main()

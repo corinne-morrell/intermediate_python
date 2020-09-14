@@ -18,7 +18,7 @@ def trajectoryCheetah():
 
     # Establish initial conditions
     vel_init_cheetah = 0.0          # m/s
-    vel_max_cheetah = 29.0          # m/s
+    vel_max_cheetah = 29.0         # m/s
     acc_init_cheetah = 10.0         # m/s**2
     exhaustion_cheetah = -0.55      # m/s**3
     dis_init_cheetah = 0.0          # m
