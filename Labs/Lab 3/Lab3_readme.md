@@ -42,14 +42,14 @@ By manipulating the values for top speed, acceleration, and exhaustion rate of t
 ![Acceleration Increased by 50%](https://i.imgur.com/PKXtRF8.png)
 > When acceleration is increased by 50%, the cheetah captures the gazelle approximately 0.8 seconds and 8 meters sooner than the capture under initial conidtions.
 
-Based on these results, it seems that acceleration is the most important factor for the cheetah's success. Exhaustion had virtually no effect. While increasing the cheetah's maximum speed did lead to a slightly faster capture, the differences compared to the initial conditions are negligible. The most dramatic changes occurred when acceleration was either decreased or increased.
+Based on these results, it seems that acceleration is the most important factor for the cheetah's success. Increasing top speed had virtually no effect. While increasing the cheetah's exhaustion rate did lead to a slightly slower capture, the differences compared to the initial conditions are negligible. The most dramatic changes occurred when acceleration was either decreased or increased.
 
 ## Concept Map
 -----
 
 To prepare for this lab, I created an algorithm flowchart.
 
-![Lab 3 Prep](https://i.imgur.com/k6pLnLf.jpg)
+![Lab 3 Prep](https://i.imgur.com/nh9PriC.jpeg)
 
 This lab was the most challenging for me so far, and I ended up deviating from my original plan quite a bit. In the previous labs, I was able to define separate functions for each equation. I planned to do this with this lab, but having to use previously calculated values in each successive equation complicated the matter. I thought using a `for` loop to populate my lists would be the best solution for this problem. I ended up creating distinct functions for both predator and prey, with all of the necessary equations contained within. This approach also required that I establish initial conditions (i.e. top speed) within the functions in order for the loops to populate the lists properly, whereas I normally would have set values for those factors in the `main` function.
 

@@ -1,9 +1,7 @@
 # Cori Hatley
-# 09-14-2020
-# Team Design Challenge: play a game of rock-paper-scissors with user inputs and randomly generated computer throws
-# To run, enter TDC3.py in the terminal, then enter your choice of rock, paper, or scissors
-
-# Put outcome determination into a separate function?
+# 09-22-2020
+# Play a game of rock-paper-scissors with user inputs and randomly generated computer throws
+# To run, enter Lab4.py in the terminal, then enter your choice of rock, paper, or scissors
 
 import random
 
@@ -25,32 +23,37 @@ def throwCPU(cpu_throw):
     elif cpu_throw == 'scissors':
         print('The computer chose scissors.')
 
+def whoWins(throw_player, throw_cpu):
+    '''Determines outcome of the game given player's throw and computer's throw'''
+    if throw_cpu == throw_player:
+        print('It\'s a tie. Try again.')
+    elif throw_cpu == 'rock' and throw_player == 'scissors':
+        print('The computer wins.')
+    elif throw_cpu == 'paper' and throw_player == 'rock':
+        print('The computer wins.')
+    elif throw_cpu == 'scissors' and throw_player == 'paper':
+        print('The computer wins.')
+    else:
+        print('You win!')
+
 def main():
     # Establish acceptable throw options
     throw_options = ['rock', 'paper', 'scissors']
     
     # Allow user to choose rock, paper, or scissors
     player_choice = (input('Rock, paper, or scissors?\n')).lower().strip()
+
+    # Check user input
     if player_choice not in throw_options:
-        print('You must choose either rock, paper, or scissors. Try again.')
+        print('You must choose either rock, paper, or scissors. Check your spelling and try again.')
     else:
         # Randomly generate the computer's choice
         cpu_choice = random.choice(throw_options)
 
-        # Call functions to print the user's and computer's choices to the terminal
+        # Call functions to print the user's and computer's choices to the terminal and determine winner
         throwPlayer(player_choice)
         throwCPU(cpu_choice)
+        whoWins(player_choice, cpu_choice)
 
-        # Determine outcome of the game
-        if cpu_choice == player_choice:
-            print('It\'s a tie. Try again.')
-        elif cpu_choice == 'rock' and player_choice == 'scissors':
-            print('The computer wins.')
-        elif cpu_choice == 'paper' and player_choice == 'rock':
-            print('The computer wins.')
-        elif cpu_choice == 'scissors' and player_choice == 'paper':
-            print('The computer wins.')
-        else:
-            print('You win!')
 
 main()
