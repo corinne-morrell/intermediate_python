@@ -37,7 +37,7 @@ To prepare for this lab, I created an algorithm flowchart.
 
 ![Lab 4 Prep](https://i.imgur.com/tHFVRFZ.png)
 
-When preparing for this lab, I originally thought I would be able to classify the each choice as being "greater than" another choice. In other words, I had hoped I would be able to establish that paper beats rock by writing `paper > rock` so I could then evaluate the outcome as follows:
+When preparing for this lab, I originally thought I would be able to classify each choice as being "greater than" another choice. In other words, I had hoped I would be able to establish that paper beats rock by writing `paper > rock` so I could then evaluate the outcome as follows:
 
 ![Example](https://i.imgur.com/fCnT0Pg.png)
 
