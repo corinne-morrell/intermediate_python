@@ -47,12 +47,12 @@ def sim_one_year():
         chick = random.choice(["m", "f"])
         next_pop.append(chick)
 
-    print(next_pop)
-
-    '''# Adult survival rate
-    i = 0
-    while i < len(current_pop):
+    # If adult survives (based on survival rate determined by warm/non-warm year),
+    index = 0
+    while index < len(current_pop):
         if random.random() < adult_survival:
-        next_pop.append(current_pop[i])'''
+            next_pop.append(current_pop[index])
+        index += 1
 
+    print(next_pop)
 sim_one_year()
