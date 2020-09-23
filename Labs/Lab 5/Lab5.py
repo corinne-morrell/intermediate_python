@@ -12,17 +12,15 @@ import matplotlib.pyplot as plt
 
 def sim_one_year():
 
-    # Create empty list for next population
+    # Establish initial conditions by populating current_pop list with 6000 males and 6000 females
     current_pop = []
-    #next_pop = []
 
-    # Populate current_pop list with 6000 males and 6000 females
     males = 1
-    while males <= 6000:
+    while males <= 6:
         current_pop.append('m')
         males += 1
 
     females = 1
-    while females <= 6000:
+    while females <= 6:
         current_pop.append('f')
         females += 1
