@@ -25,6 +25,11 @@ def sim_one_year():
         current_pop.append('f')
         females += 1
 
+    # Count breeding pairs
+    num_m = current_pop.count('m')
+    num_f = current_pop.count('f')
+    num_pairs = min(num_m, num_f)
+
     # Factor in temperature and establish survival rates for warm/non-warm years
     warm_rate = 0.18
     if random.random() < warm_rate:
