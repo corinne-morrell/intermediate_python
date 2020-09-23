@@ -53,7 +53,6 @@ def sim_one_year():
     num_m = next_pop.count('m')
     num_f = next_pop.count('f')
     num_pairs = min(num_m, num_f)
-    print(num_pairs)
 
    # If chick survives (based on survival rate determined by warm/non-warm year), append a randomly-gendered chick to next_pop
     breeding_pairs = 0
@@ -63,5 +62,19 @@ def sim_one_year():
             next_pop.append(chick)
         breeding_pairs += 1
 
-    print(next_pop)
-sim_one_year()
+    return next_pop[:]
+
+def sim_one_trial(pop):
+    pop_size = []
+
+    pop_size.append(len(pop))
+
+    trial_pairs = []
+    num_m = pop.count('m')
+    num_f = pop.count('f')
+    num_pairs = min(num_m, num_f)
+    trial_pairs.append(num_pairs)
+
+    year = 0
+    no_pairs = 0
+    while no_pairs < trial_pairs and year <= 200:
