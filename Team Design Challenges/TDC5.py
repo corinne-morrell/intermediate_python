@@ -8,52 +8,50 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 
-def calcLanding_time(x, v, theta):
-    ''' Returns landing time of projectile given initial velocity,
-    launch angle, and magnitude of acceleration due to gravity. Return value
-    is used as the endpoint for the range of time values required
-    to calculate the path of the projectile. '''
-    landing_time = x / (v * math.cos(theta))
-    return landing_time
+def theta_range():
+    '''Generates candidates for optimal launch angle and appends the values to a list'''
+    launch_angle = [0]
+    delta_theta = 0.01
+    intervals = 157 # max angle = pi/2; (pi/2)/0.01 is approx. 157
 
-def calcHorizontal_position(x, v, theta, t):
-    ''' Returns current horizontal position given initial position,
-    initial velocity, launch angle, and variable time. Return value is used
-    to plot the x coordinates of the projectile's path. '''
-    x_current = x + (v * math.cos(theta) * t)
-    return x_current
-
-def calcVertical_position(y, v, theta, t, g):
-    ''' Returns current vertical position given initial position,
-    initial velocity, launch angle, variable time, and acceleration
-    due to gravity. Return value is used to plot the y coordinates
-    of the projectile's path. '''
-    y_current = y + (v * math.sin(theta) * t) - (0.5 * g * t**2)
-    return y_current
+    for theta in range(0, intervals):
+        new_angle = launch_angle[theta] + delta_theta
+        launch_angle.append(new_angle)
     
-def main():
-    # Establish initial position (x,y) and acceleration due to gravity
-    x_init = 0
-    y_init = 1.98
-    acc_gravity = 9.81
+    return launch_angle
 
-    # Convert angle from degrees to radians
-    launch_angle = angle_degrees * (math.pi / 180.0)
+def velocity_range():
+    '''Generates candidates for optimal launch velocity and appends the values to a list'''
+    vel_init = [0]
+    delta_vel = 0.01
+    intervals = 1000 # max velocity is about 10m/s for shooting a basketball; 10/0.01 = 1000
 
-    # Call functions to calculate trajectory of projectile
-    landing_time = calcLanding_time(v_init, launch_angle, acc_gravity)
-    time = np.linspace(0, landing_time, 20)
-    x_path = calcHorizontal_position(x_init, v_init, launch_angle, time)
-    y_path = calcVertical_position(y_init, v_init, launch_angle, time, acc_gravity)
+    for v in range(0, intervals):
+        new_vel = vel_init[v] + delta_vel
+        vel_init.append(new_vel)
 
-    # Label figure and plot trajectory on a grid
-    plt.figure('Free Throw Optimization Figure')
-    plt.title('Trajectory of a Free Throw')
-    plt.xlabel('Range (m)')
-    plt.ylabel('Height (m)')
-    plt.plot(x_path, y_path)
-    plt.grid()
-    plt.show()
+    return vel_init
+
+def optimizeThrow(x_target, v, theta, g, y):
+    '''Calculates x-final given the lists of all possible values for launch angle and velocity
+    and checks that x-final equals the target x-value'''
+
+    x = (v * math.cos(theta) * (-v * math.sin(theta) + math.sqrt(v**2 * (math.sin(theta)**2) + 2 * g * y))) / -g
 
 
-main()
+    while x < x_target: # I don't know what I'm trying to accomplish here anymore
+        if x == x_target:
+            return x
+        else:
+
+'''def main():
+    
+    x_final = 5.8
+    y_final = 1.295
+    gravity = 9.81
+
+    theta = theta_range()
+    v_init = velocity_range()
+
+
+main()'''
