@@ -31,17 +31,17 @@ def sim_one_year():
         warm = True
     else:
         warm = False
-    print(warm)
 
-    """# Establish survival rates for warm and non-warm years
+    # Establish survival rates for warm and non-warm years
     if warm:
         chick_survival = 0.01
         adult_survival = 0.7
     else:
         chick_survival = 0.19
         adult_survival = 0.9
-
-    # Chick survival rate
+    print(chick_survival)
+    print(adult_survival)
+    '''# Chick survival rate
     if random.random() < chick_survival:
         chick = random.choice(["m", "f"])
         next_pop.append(chick)
@@ -50,6 +50,6 @@ def sim_one_year():
     i = 0
     while i < len(current_pop):
         if random.random() < adult_survival:
-        next_pop.append(current_pop[i])'''"""
+        next_pop.append(current_pop[i])'''
 
 sim_one_year()
