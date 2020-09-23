@@ -24,3 +24,32 @@ def sim_one_year():
     while females <= 6:
         current_pop.append('f')
         females += 1
+
+    # Factor in temperature
+    warm_rate = 0.18
+    if random.random() < warm_rate:
+        warm = True
+    else:
+        warm = False
+    print(warm)
+
+    """# Establish survival rates for warm and non-warm years
+    if warm:
+        chick_survival = 0.01
+        adult_survival = 0.7
+    else:
+        chick_survival = 0.19
+        adult_survival = 0.9
+
+    # Chick survival rate
+    if random.random() < chick_survival:
+        chick = random.choice(["m", "f"])
+        next_pop.append(chick)
+
+    # Adult survival rate
+    i = 0
+    while i < len(current_pop):
+        if random.random() < adult_survival:
+        next_pop.append(current_pop[i])'''"""
+
+sim_one_year()
