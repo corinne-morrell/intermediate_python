@@ -10,9 +10,24 @@
 import random
 import matplotlib.pyplot as plt
 
-def sim_one_year(currentpop):
+def initial_pop(num_males, num_females):
+    
+    # Establish initial conditions by populating current_pop list with 6000 males and 6000 females
+    current_pop = []
 
-    currentpop, trial_pairs = sim_one_trial()
+    males = 1
+    while males <= num_males:
+        current_pop.append('m')
+        males += 1
+
+    females = 1
+    while females <= num_females:
+        current_pop.append('f')
+        females += 1
+    
+    return current_pop
+
+def sim_one_year(initpop):
 
     # Factor in temperature and establish survival rates for warm/non-warm years
     warm_rate = 0.18
@@ -33,16 +48,16 @@ def sim_one_year(currentpop):
 
     # If adult survives (based on survival rate determined by warm/non-warm year), append the adult from current_pop to next_pop
     index = 0
-    while index < len(currentpop):
+    while index < len(initpop):
         if random.random() < adult_survival:
-            next_pop.append(currentpop[index])
+            next_pop.append(initpop[index])
         index += 1
 
     # Count breeding pairs
+    breeding_pairs = []
     num_m = next_pop.count('m')
     num_f = next_pop.count('f')
     num_pairs = min(num_m, num_f)
-    breeding_pairs = []
     breeding_pairs.append(num_pairs)
 
    # If chick survives (based on survival rate determined by warm/non-warm year), append a randomly-gendered chick to next_pop
@@ -55,40 +70,28 @@ def sim_one_year(currentpop):
 
     return next_pop[:], breeding_pairs[:]
 
-def sim_one_trial():
-
-    # Establish initial conditions by populating current_pop list with 6000 males and 6000 females
-    current_pop = []
-
-    males = 1
-    while males <= 6:
-        current_pop.append('m')
-        males += 1
-
-    females = 1
-    while females <= 6:
-        current_pop.append('f')
-        females += 1
+def sim_one_trial(initpop):
     
-    next_pop, breeding_pairs = sim_one_year(current_pop)
+    next_pop, trial_pairs = sim_one_year(initpop)
 
-    #pop_size = []
-
-    #pop_size.append(len(pop))
-
-    trial_pairs = []
-    num_m = current_pop.count('m')
-    num_f = current_pop.count('f')
+    num_m = initpop.count('m')
+    num_f = initpop.count('f')
     num_pairs = min(num_m, num_f)
     trial_pairs.append(num_pairs)
 
     year = 0
     no_pairs = 0
-    while no_pairs < trial_pairs and year <= 200:
+    while no_pairs < len(trial_pairs) and year <= 200:
         num_m = next_pop.count('m')
         num_f = next_pop.count('f')
         num_pairs = min(num_m, num_f)
         trial_pairs.append(num_pairs)
         year += 1
 
-    return current_pop[:], trial_pairs[:]
+    return trial_pairs[:]
+
+starting_pop = initial_pop(6, 6)
+one_year_test = sim_one_year(starting_pop)
+one_trial_test = sim_one_trial(starting_pop)
+print(one_year_test)
+print(one_trial_test)
