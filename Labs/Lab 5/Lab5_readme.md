@@ -31,3 +31,4 @@ To prepare for this lab, I created an algorithm flowchart.
 
 ## References
 -----
+https://www.guru99.com/python-list-count.html#:~:text=Summary%3A-,The%20count()%20is%20a%20built%2Din%20function%20in%20Python,method%20returns%20an%20integer%20value.

@@ -10,23 +10,9 @@
 import random
 import matplotlib.pyplot as plt
 
-def init_pop():
-    # Initialize population by populating current_pop list with 6000 males and 6000 females
-    initial_pop = []
+def sim_one_year(currentpop):
 
-    males = 1
-    while males <= 6:
-        initial_pop.append('m')
-        males += 1
-
-    females = 1
-    while females <= 6:
-        initial_pop.append('f')
-        females += 1
-
-def sim_one_year(init_pop):
-    '''Simulates a colony of emperor penguins over 1 year by checking for warm conditions and determining
-    adult/chick survival rates depending on warm/not warm then appends the surviving penguins to the next year's population'''
+    currentpop, trial_pairs = sim_one_trial()
 
     # Factor in temperature and establish survival rates for warm/non-warm years
     warm_rate = 0.18
@@ -42,53 +28,67 @@ def sim_one_year(init_pop):
         chick_survival = 0.19
         adult_survival = 0.9
 
-    # Initialize current and next populations
-    init_pop = []
+    # Initialize next population
     next_pop = []
 
-    # If adult survives (based on survival rate determined by warm/non-warm year), append the adult from init_pop to next_pop
-    penguin = 0
-    while penguin < len(init_pop):
+    # If adult survives (based on survival rate determined by warm/non-warm year), append the adult from current_pop to next_pop
+    index = 0
+    while index < len(currentpop):
         if random.random() < adult_survival:
-            next_pop.append(init_pop[penguin])
-        penguin += 1
+            next_pop.append(currentpop[index])
+        index += 1
 
     # Count breeding pairs
     num_m = next_pop.count('m')
     num_f = next_pop.count('f')
     num_pairs = min(num_m, num_f)
+    breeding_pairs = []
+    breeding_pairs.append(num_pairs)
 
    # If chick survives (based on survival rate determined by warm/non-warm year), append a randomly-gendered chick to next_pop
-    breeding_pairs = 0
-    while breeding_pairs <= num_pairs:
+    starting_pairs = 0
+    while starting_pairs <= num_pairs:
         if random.random() < chick_survival:
             chick = random.choice(['m', 'f'])
             next_pop.append(chick)
-        breeding_pairs += 1
+        starting_pairs += 1
 
-    return next_pop[:]
+    return next_pop[:], breeding_pairs[:]
 
-def sim_one_trial(initial_pop):
+def sim_one_trial():
+
+    # Establish initial conditions by populating current_pop list with 6000 males and 6000 females
+    current_pop = []
+
+    males = 1
+    while males <= 6:
+        current_pop.append('m')
+        males += 1
+
+    females = 1
+    while females <= 6:
+        current_pop.append('f')
+        females += 1
     
-    #moved lines 60-70 from sim_one_year because Prof. Eaton pointed out that it will re-write my next_pop and start with current_pop for every year
-    #now the problem is that lines 37 and 39 depend on current_pop, an empty list, how do I fix this?
+    next_pop, breeding_pairs = sim_one_year(current_pop)
+
+    #pop_size = []
+
+    #pop_size.append(len(pop))
 
     trial_pairs = []
-    num_m = initial_pop.count('m')
-    num_f = initial_pop.count('f')
+    num_m = current_pop.count('m')
+    num_f = current_pop.count('f')
     num_pairs = min(num_m, num_f)
     trial_pairs.append(num_pairs)
 
     year = 0
     no_pairs = 0
     while no_pairs < trial_pairs and year <= 200:
-        sim_one_year()
-        num_m = pop.count('m')
-        num_f = pop.count('f')
+        num_m = next_pop.count('m')
+        num_f = next_pop.count('f')
         num_pairs = min(num_m, num_f)
-        # add trial_pairs.pop(*) to empty out previous values???
         trial_pairs.append(num_pairs)
         year += 1
 
-test_pop = sim_one_year
-sim_one_trial(test_pop)
+    return current_pop[:], trial_pairs[:]

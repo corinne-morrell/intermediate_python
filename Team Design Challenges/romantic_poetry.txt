@@ -1,0 +1,6 @@
+Romantic Poetry
+
+Roses are COLOR,
+NOUN(PLURAL) are blue,
+NOUN is ADJECTIVE,
+and so are you.
