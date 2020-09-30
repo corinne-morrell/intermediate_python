@@ -38,9 +38,19 @@ def viz_data(filename, x, y):
     row_contents = read_file(filename)
     row_length = len( row_contents )
 
+    
     # breaks up row_list into seperate lists for each row
     for row_number in range(row_length):
         row_contents[row_number] = row_contents[row_number].strip().split( "," )
+    #print('Test column:', column)
+
+    columns = []
+    for value in range(len(row_contents[0])):
+        column = []
+        for row in range(row_length):
+            column.append(row_contents[row][value])
+        columns.append(column)
+    print(columns)
 
 
 def main(argv):
