@@ -79,6 +79,8 @@ def sim_one_trial(initpop):
     num_pairs = min(num_m, num_f)
     trial_pairs.append(num_pairs)
 
+    print(len(trial_pairs))
+
     year = 0
     no_pairs = 0
     while no_pairs < len(trial_pairs) and year <= 200:
