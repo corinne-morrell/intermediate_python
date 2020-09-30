@@ -7,9 +7,7 @@ import os
 import sys, getopt
 import matplotlib.pyplot as plt
 
-def get_metadata(filename):
-    ''' Reads the first item in row_list from read_file and appends 
-    each value to a list of metadata.'''
+
 
 def read_file(filename):
     ''' Returns a list of strings in which each element is one line
@@ -35,22 +33,34 @@ def read_file(filename):
     return row_list
 
 def viz_data(filename, x, y):
-    row_contents = read_file(filename)
-    row_length = len( row_contents )
 
+    # Call read_file to get row_list
+    row_contents = read_file(filename)
+    row_length = len(row_contents)
     
-    # breaks up row_list into seperate lists for each row
+    # Breaks up row_list into seperate lists for each row
     for row_number in range(row_length):
         row_contents[row_number] = row_contents[row_number].strip().split( "," )
-    #print('Test column:', column)
+    
+    # Separate headers from row contents
+    headers = row_contents[0]
+    row_contents = row_contents[1:]
+    row_length = len(row_contents)
 
+    # Format contents to floats
+    for row_num in range(len(row_contents)):
+        for data in range(len(row_contents[row_num])):
+            row_contents[row_num][data] = float(row_contents[row_num][data])
+
+    # Append values from row lists into column lists by indexing each value in row contents
     columns = []
     for value in range(len(row_contents[0])):
         column = []
         for row in range(row_length):
             column.append(row_contents[row][value])
         columns.append(column)
-    print(columns)
+    print('Headers:', headers)
+    print('Columns:', columns)
 
 
 def main(argv):
