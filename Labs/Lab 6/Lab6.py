@@ -7,8 +7,6 @@ import os
 import sys, getopt
 import matplotlib.pyplot as plt
 
-
-
 def read_file(filename):
     ''' Returns a list of strings in which each element is one line
     from the file. The filename must be a string. Assumes that the
@@ -32,6 +30,15 @@ def read_file(filename):
 
     return row_list
 
+def plot(x_header, y_header, columns):
+    fig, ax = plt.subplots(1,2)
+
+    ax[0].plot(columns[0], columns[1], 'dk')
+    ax[0].set_title("Scatterplot")
+    ax[0].set_xlabel(x_header)
+    ax[0].set_ylabel(y_header)
+    ax[0].grid()
+
 def viz_data(filename, x, y):
 
     # Call read_file to get row_list
@@ -43,7 +50,8 @@ def viz_data(filename, x, y):
         row_contents[row_number] = row_contents[row_number].strip().split( "," )
     
     # Separate headers from row contents
-    headers = row_contents[0]
+    x_header = row_contents[0][x]
+    y_header = row_contents[0][y]
     row_contents = row_contents[1:]
     row_length = len(row_contents)
 
@@ -54,13 +62,18 @@ def viz_data(filename, x, y):
 
     # Append values from row lists into column lists by indexing each value in row contents
     columns = []
-    for value in range(len(row_contents[0])):
+    for value in [x, y]:
         column = []
         for row in range(row_length):
             column.append(row_contents[row][value])
         columns.append(column)
-    print('Headers:', headers)
-    print('Columns:', columns)
+
+    print('X Header:', x_header)
+    print('Y Header:', y_header)
+    print('X Column:', columns[0])
+    print('Y Column:', columns[1])
+
+    plot(x_header, y_header, columns)
 
 
 def main(argv):
@@ -90,3 +103,4 @@ def main(argv):
 
 if __name__ == "__main__":
     main(sys.argv)
+    plt.show()
