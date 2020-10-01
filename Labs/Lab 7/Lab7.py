@@ -12,9 +12,9 @@ end = len(gene)
 
 
 while end <= len(dna_strand):
-    test_gene = []
+    test_gene = ''
     for i in range(start, end):
-        test_gene.append(dna_strand[i])
+        test_gene += dna_strand[i]
     start += 1
     end += 1
 
