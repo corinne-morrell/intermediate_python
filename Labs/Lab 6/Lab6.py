@@ -31,23 +31,11 @@ def read_file(filename):
 
     return row_list
 
-def plot(x_header, y_header, columns):
-    
-    # Plot figures
-    fig, ax = plt.subplots(1,2)
-
-    ax[0].plot(columns[0], columns[1], 'bo')
-    ax[0].set_title("Scatterplot")
-    ax[0].set_xlabel(x_header)
-    ax[0].set_ylabel(y_header)
-    ax[0].grid()
-
-    ax[1].bar(columns[0], columns[1])
-    ax[1].set_title("Bar Graph")
-    ax[1].set_xlabel(x_header)
-    ax[1].set_ylabel(y_header)
 
 def viz_data(filename, x, y):
+    ''' Places the contents of each row in the CSV file into separate lists,
+    formats the row contents into floats, appends values from row lists into column lists,
+    then calls the plot function to visualize the data '''
 
     # Call read_file to get row_list
     row_contents = read_file(filename)
@@ -83,9 +71,25 @@ def viz_data(filename, x, y):
 
     plot(x_header, y_header, columns)
 
+def plot(x_header, y_header, columns):
+    ''' Plots x-column vs y-column of the indicated CSV file on a scatterplot
+    and a bar graph '''
+    # Plot figures
+    fig, ax = plt.subplots(1,2)
+
+    ax[0].plot(columns[0], columns[1], 'bo')
+    ax[0].set_title("Scatterplot")
+    ax[0].set_xlabel(x_header)
+    ax[0].set_ylabel(y_header)
+    ax[0].grid()
+
+    ax[1].bar(columns[0], columns[1])
+    ax[1].set_title("Bar Graph")
+    ax[1].set_xlabel(x_header)
+    ax[1].set_ylabel(y_header)
 
 def main(argv):
-    
+    ''' Initializes command line arguments and checks for problems with input '''
     argv = argv[1:]
     filename = ''
     x_col = 0
