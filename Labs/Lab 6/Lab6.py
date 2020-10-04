@@ -2,6 +2,7 @@
 # Lab 6: Scientific Data Visualization
 # Intermediate Python
 # 10-06-20
+# To run, enter python Lab6.py -i filename -x x-column -y y-column
 
 import os
 import sys, getopt
@@ -31,13 +32,20 @@ def read_file(filename):
     return row_list
 
 def plot(x_header, y_header, columns):
+    
+    # Plot figures
     fig, ax = plt.subplots(1,2)
 
-    ax[0].plot(columns[0], columns[1], 'dk')
+    ax[0].plot(columns[0], columns[1], 'bo')
     ax[0].set_title("Scatterplot")
     ax[0].set_xlabel(x_header)
     ax[0].set_ylabel(y_header)
     ax[0].grid()
+
+    ax[1].bar(columns[0], columns[1])
+    ax[1].set_title("Bar Graph")
+    ax[1].set_xlabel(x_header)
+    ax[1].set_ylabel(y_header)
 
 def viz_data(filename, x, y):
 
@@ -80,8 +88,8 @@ def main(argv):
     
     argv = argv[1:]
     filename = ''
-    x_col = 999
-    y_col = 999
+    x_col = 0
+    y_col = 1
     try:
         opts, args = getopt.getopt(argv, "hi:x:y:")
     except getopt.GetoptError:
