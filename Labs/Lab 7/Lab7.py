@@ -26,8 +26,6 @@ def main(argv):
             dna_filename = arg
         elif opt == "-g":
             gene_filename = arg
-        
-    print('DNA Strand: {0}, Target Gene: {1}'.format(dna_filename, gene_filename))
     
     find_match(dna_filename, gene_filename)
 
@@ -47,23 +45,26 @@ def find_match(dna_filename, gene_filename):
 
         match = (character_match == target_gene)
         partial = []
-
+        mutations = []
+        
         for i in range(len(target_gene)):
             partial.append(target_gene[i] == character_match[i])
-        
+            if partial[i] == False:
+                mutations.append("In position {0}, expected {1}, found {2}. ".format([i], target_gene[i], character_match[i]))
+        mut_string = ''.join(mutations)
+
         percent = partial.count(True) / len(partial) * 100
 
         # loop to only keep best match? check through "possible" list
         if percent > 50:
-            possible_match.append("{0} == {1}: {2}, {3}, Similarity: {4}%, Start Position: {5}, Final Position: {6}".format(character_match, target_gene, match, partial, round(percent, 3), start, end))
+            possible_match.append("Possible match: {0}\nSimilarity: {1}%\nGene Location: ({2}, {3})\nMutations: {4}\n".format(character_match, round(percent, 3), start, end, mut_string))
 
         start += 1
         end += 1
 
-    print("\nPossible Matches\n")
+    print('\nDNA Strand: {0}\nTarget Gene: {1}\n'.format(dna_strand, target_gene))
     for i in possible_match:
        print(i)
-
 
 def read_gene(gene_filename):
     ''' Returns a list of strings in which each element is one line
