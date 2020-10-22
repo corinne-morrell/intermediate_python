@@ -4,34 +4,55 @@
 # Lab 8: Under/Over AI Player
 
 import random
+import matplotlib.pyplot as plt
+
 def main():
-    ''' Generates a random number and passes lower_bound, upper_bound, and target to play_game function. '''
     
-    
-
-    # human_player(number_list, lower_bound, upper_bound, target, turns=0)
-    # number_of_turns = optimal_AI(number_list, lower_bound, upper_bound, target, turns=0)
-    # print("Computer guessed in {0} turns.".format(number_of_turns))
-    calc_average()
-
-def calc_average():
-
-    # Initialize lower and upper boundaries
+    #plot_results()
     lower_bound = 1
-    upper_bound = 200
-
-    # Generate random number target
-    target = random.randint(lower_bound, upper_bound)
-
-    # Initialize an empty list
+    upper_bound = 100
     number_list = []
-
-    # Append all numbers within the range to number_list (to be used in error checking)
     for i in range(lower_bound, upper_bound+1):
         number_list.append(i)
+    target = random.randint(lower_bound, upper_bound)
+    sub_turns = suboptimal_AI(number_list, lower_bound, upper_bound, target)
+    optimal_turns = optimal_AI(number_list, lower_bound, upper_bound, target, turns=0)
+    print("Suboptimal player guessed in {0} turns.".format(sub_turns))
+    print("Optimal player guessed in {0} turns.".format(optimal_turns))
+
+def plot_results():
+    
+    # Initialize lower and upper boundaries
+    lower_bound = 1
+    upper_bound = []
+    for value in range(100, 1100, 100):
+        upper_bound.append(value)
+
+    average_turns = []
+    for n in upper_bound:
+
+        # Initialize an empty list
+        number_list = []
+
+        # Append all numbers within the range to number_list (to be used in error checking)
+        for i in range(lower_bound, upper_bound[n]):
+            number_list.append(i)
+
+        target = random.randint(lower_bound, upper_bound[n])
+        turns = calc_average(number_list, lower_bound, upper_bound[n], target)
+        average_turns.append(turns)
+
+    plt.figure("Optimal AI Player Performance")
+    plt.title("Average Number of Turns vs. Upper Bound")
+    plt.xlabel("Average Number of Turns")
+    plt.ylabel("Upper Bound of Guessing Range")
+    plt.plot(average_turns, upper_bound)
+    plt.show()
+
+def calc_average(number_list, lower_bound, upper_bound, target):
 
     turns_list = []
-    trials = 0
+    trials = 1
     while trials <= 10:
 
         turns = optimal_AI(number_list, lower_bound, upper_bound, target, turns=0)
@@ -39,9 +60,17 @@ def calc_average():
 
         trials += 1
 
-    print(turns_list)
+    ''' Appending the same number of turns every time, i.e. [7, 7, 7, 7, etc]'''
+    average_turns = sum(turns_list) / len(turns_list)
+    # print(turns_list)
+    # print(average_turns)
+    return average_turns
 
 def optimal_AI(number_list, lower_bound, upper_bound, target, turns=0):
+    ''' Implements binary search to guess the target value when given a list
+    of possible values, a lower bound, upper bound, target value, and initial
+    turn count of 0. Returns the number of turns (searches) required to find
+    the correct value. '''
 
     turns += 1
     if upper_bound >= lower_bound:
@@ -57,10 +86,14 @@ def optimal_AI(number_list, lower_bound, upper_bound, target, turns=0):
         else:
             return optimal_AI(number_list, mid + 1, upper_bound, target, turns)
 
-    else:
-        print("Something went wrong. Please try again.")
-        optimal_AI(number_list, lower_bound, upper_bound, target, turns)
+def suboptimal_AI(number_list, lower_bound, upper_bound, target):
+    ''' Implements linear search to guess the target value when given a list
+    of possible values, a lower bound, upper bound, and target value. Returns
+    the number of turns (searches) required to find the correct value. '''
 
+    for turn in range(len(number_list)):
+        if number_list[turn] == target:
+            return turn+1
 
 def human_player(number_list, lower_bound, upper_bound, target, turns=0):
     ''' Prompts the user to guess a number between lower_bound and upper_bound then
