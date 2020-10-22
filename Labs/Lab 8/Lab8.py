@@ -7,9 +7,18 @@ import random
 def main():
     ''' Generates a random number and passes lower_bound, upper_bound, and target to play_game function. '''
     
+    
+
+    # human_player(number_list, lower_bound, upper_bound, target, turns=0)
+    # number_of_turns = optimal_AI(number_list, lower_bound, upper_bound, target, turns=0)
+    # print("Computer guessed in {0} turns.".format(number_of_turns))
+    calc_average()
+
+def calc_average():
+
     # Initialize lower and upper boundaries
     lower_bound = 1
-    upper_bound = 100
+    upper_bound = 200
 
     # Generate random number target
     target = random.randint(lower_bound, upper_bound)
@@ -21,8 +30,16 @@ def main():
     for i in range(lower_bound, upper_bound+1):
         number_list.append(i)
 
-    # human_player(number_list, lower_bound, upper_bound, target, turns=0)
-    optimal_AI(number_list, lower_bound, upper_bound, target, turns=0)
+    turns_list = []
+    trials = 0
+    while trials <= 10:
+
+        turns = optimal_AI(number_list, lower_bound, upper_bound, target, turns=0)
+        turns_list.append(turns)
+
+        trials += 1
+
+    print(turns_list)
 
 def optimal_AI(number_list, lower_bound, upper_bound, target, turns=0):
 
@@ -31,7 +48,8 @@ def optimal_AI(number_list, lower_bound, upper_bound, target, turns=0):
         mid = (upper_bound + lower_bound) // 2
 
         if number_list[mid] == target:
-            print("The correct number is {0}.\nThe computer guessed correctly in {1} turns.\n".format(mid, turns))
+            # print("The correct number is {0}.\nThe computer guessed correctly in {1} turns.\n".format(mid, turns))
+            return turns
 
         elif number_list[mid] > target:
             return optimal_AI(number_list, lower_bound, mid - 1, target, turns)
