@@ -9,7 +9,7 @@ def main():
     
     # Initialize lower and upper boundaries
     lower_bound = 1
-    upper_bound = 5
+    upper_bound = 100
 
     # Generate random number target
     target = random.randint(lower_bound, upper_bound)
@@ -21,16 +21,17 @@ def main():
     for i in range(lower_bound, upper_bound+1):
         number_list.append(i)
 
-    human_player(number_list, lower_bound, upper_bound, target, turns=0)
+    # human_player(number_list, lower_bound, upper_bound, target, turns=0)
+    optimal_AI(number_list, lower_bound, upper_bound, target, turns=0)
 
-'''def optimal_AI(number_list, lower_bound, upper_bound, target, turns=0):
+def optimal_AI(number_list, lower_bound, upper_bound, target, turns=0):
 
     turns += 1
     if upper_bound >= lower_bound:
         mid = (upper_bound + lower_bound) // 2
 
         if number_list[mid] == target:
-            return mid
+            print("The correct number is {0}.\nThe computer guessed correctly in {1} turns.\n".format(mid, turns))
 
         elif number_list[mid] > target:
             return optimal_AI(number_list, lower_bound, mid - 1, target, turns)
@@ -39,8 +40,8 @@ def main():
             return optimal_AI(number_list, mid + 1, upper_bound, target, turns)
 
     else:
-        print("Invalid input. Please try again.")
-        optimal_AI(number_list, lower_bound, upper_bound, target, turns)'''
+        print("Something went wrong. Please try again.")
+        optimal_AI(number_list, lower_bound, upper_bound, target, turns)
 
 
 def human_player(number_list, lower_bound, upper_bound, target, turns=0):
@@ -57,7 +58,7 @@ def human_player(number_list, lower_bound, upper_bound, target, turns=0):
 
         # Compare guess to n
         if guess == target:
-            print("Congratulations! Your guess of {0} is correct! You guessed correctly in {1} turns.\n".format(guess, turns))
+            print("Congratulations! Your guess of {0} is correct!\nYou guessed correctly in {1} turns.\n".format(guess, turns))
 
         # If guess is not equal to n, give the user a hint
         elif guess < target:
