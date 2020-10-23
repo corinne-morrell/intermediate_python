@@ -8,85 +8,82 @@ import matplotlib.pyplot as plt
 
 def main():
     
-    #plot_results()
-    lower_bound = 1
-    upper_bound = 100
-    number_list = []
-    for i in range(lower_bound, upper_bound+1):
-        number_list.append(i)
-    target = random.randint(lower_bound, upper_bound)
-    sub_turns = suboptimal_AI(number_list, lower_bound, upper_bound, target)
-    optimal_turns = optimal_AI(number_list, lower_bound, upper_bound, target, turns=0)
-    print("Suboptimal player guessed in {0} turns.".format(sub_turns))
-    print("Optimal player guessed in {0} turns.".format(optimal_turns))
+    plot_results()
 
 def plot_results():
     
     # Initialize lower and upper boundaries
     lower_bound = 1
     upper_bound = []
-    for value in range(100, 1100, 100):
+    for value in range(100, 1001):
         upper_bound.append(value)
 
-    average_turns = []
+    optimal_average_turns = []
+    sub_average_turns = []
     for n in upper_bound:
 
         # Initialize an empty list
         number_list = []
 
-        # Append all numbers within the range to number_list (to be used in error checking)
-        for i in range(lower_bound, upper_bound[n]):
+        # Append all numbers within the range to number_list
+        for i in range(lower_bound, n):
             number_list.append(i)
 
-        target = random.randint(lower_bound, upper_bound[n])
-        turns = calc_average(number_list, lower_bound, upper_bound[n], target)
-        average_turns.append(turns)
+        target = random.randint(lower_bound, n)
+        optimal_turns, sub_turns = calc_average(number_list, lower_bound, n, target)
+        optimal_average_turns.append(optimal_turns)
+        sub_average_turns.append(sub_turns)
 
     plt.figure("Optimal AI Player Performance")
     plt.title("Average Number of Turns vs. Upper Bound")
     plt.xlabel("Average Number of Turns")
     plt.ylabel("Upper Bound of Guessing Range")
-    plt.plot(average_turns, upper_bound)
+    plt.plot(upper_bound, optimal_average_turns)
     plt.show()
 
 def calc_average(number_list, lower_bound, upper_bound, target):
 
-    turns_list = []
+    sub_turns_list = []
+    optimal_turns_list = []
     trials = 1
     while trials <= 10:
 
-        turns = optimal_AI(number_list, lower_bound, upper_bound, target, turns=0)
-        turns_list.append(turns)
+        target = random.randint(lower_bound, upper_bound)
+        sub_turns = suboptimal_AI(number_list, target)
+        optimal_turns = optimal_AI(number_list, lower_bound, upper_bound, target, turns=0)
+        sub_turns_list.append(sub_turns)
+        optimal_turns_list.append(optimal_turns)
 
         trials += 1
-
-    ''' Appending the same number of turns every time, i.e. [7, 7, 7, 7, etc]'''
-    average_turns = sum(turns_list) / len(turns_list)
-    # print(turns_list)
-    # print(average_turns)
-    return average_turns
+    print(sub_turns_list)
+    optimal_average_turns = sum(optimal_turns_list) // len(optimal_turns_list)
+    sub_average_turns = sum(sub_turns_list) // len(sub_turns_list)
+    
+    return optimal_average_turns, sub_average_turns
+    
 
 def optimal_AI(number_list, lower_bound, upper_bound, target, turns=0):
     ''' Implements binary search to guess the target value when given a list
     of possible values, a lower bound, upper bound, target value, and initial
     turn count of 0. Returns the number of turns (searches) required to find
     the correct value. '''
-
+    
     turns += 1
     if upper_bound >= lower_bound:
         mid = (upper_bound + lower_bound) // 2
+        return mid
 
-        if number_list[mid] == target:
-            # print("The correct number is {0}.\nThe computer guessed correctly in {1} turns.\n".format(mid, turns))
-            return turns
+    if mid == target:
+        return turns
 
-        elif number_list[mid] > target:
-            return optimal_AI(number_list, lower_bound, mid - 1, target, turns)
+    elif mid > target:
+        return optimal_AI(number_list, lower_bound, mid-1, target, turns)
 
-        else:
-            return optimal_AI(number_list, mid + 1, upper_bound, target, turns)
+    else:
+        return optimal_AI(number_list, mid+1, upper_bound, target, turns)
 
-def suboptimal_AI(number_list, lower_bound, upper_bound, target):
+
+def suboptimal_AI(number_list, target):
     ''' Implements linear search to guess the target value when given a list
     of possible values, a lower bound, upper bound, and target value. Returns
     the number of turns (searches) required to find the correct value. '''
@@ -94,6 +91,10 @@ def suboptimal_AI(number_list, lower_bound, upper_bound, target):
     for turn in range(len(number_list)):
         if number_list[turn] == target:
             return turn+1
+        else:
+            return len(number_list)
+            
+    print("Target not found.")
 
 def human_player(number_list, lower_bound, upper_bound, target, turns=0):
     ''' Prompts the user to guess a number between lower_bound and upper_bound then
