@@ -42,6 +42,4 @@ def test_fibonacci():
 
 if __name__ == "__main__":
 	#test_fibonacci()
-	#time_fibonacci_ineff( 20 )
-	fib_list = fibonacci_efficient(10)
-	print(fib_list)
+	time_fibonacci_ineff( 20 )

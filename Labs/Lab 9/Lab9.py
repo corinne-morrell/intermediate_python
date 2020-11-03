@@ -17,35 +17,36 @@ def fib_efficient(n):
     # Call fib_sequence to access dictionary
     sequence = fib_sequence()
 
-    # Establish base case
-    if n <= 2:
-        return 1
-    
     # Check to see if the term has already been calculated
-    if n in sequence:
+    if n in sequence and n > 2:
         return sequence[n]
 
     # Recursive call and recombination for calculating the next term in the sequence
-    else:
+    elif n not in sequence and n > 2:
         fib_num = fib_efficient(n-1) + fib_efficient(n-2)
         sequence[n] = fib_num
         return fib_num
+
+    # Establish base case
+    else:
+        return 1
 
 def time_fibonacci_eff(n):
 	''' Time the fib_efficient() function as it calculates the n-th Fibonacci number. Returns the time in seconds. '''
 	print( f"Calculating the {n}-th Fibonacci number..." )
 	t_start = time.time()
-	fib_n = fib_efficient( n )
+	fib_n = fib_efficient(n)
 	t_end = time.time()
-	t_fib = t_end - t_start
+	delta_t = t_end - t_start
+	t_fib = delta_t * 1000000
 	print( f"\tfib_efficient({n}) = {fib_n}" )
-	print( f"\tcompleted in {t_fib} seconds" )
+	print( f"\tcompleted in {t_fib} microseconds" )
 	return t_fib
     
 def fibonacci_inefficient(n):
 	''' Inefficiently calculates the n-th term of the Fibonacci sequence '''
 	fib_n = 0
-	if n >= 2:
+	if n > 2:
 		# Subdivision: Calculate the previous 2 Fibonacci numbers.
 		# Recombination: add the previous 2 Fibonacci numbers to produce the n-th value in the sequence.
 		fib_n = fibonacci_inefficient(n-2) + fibonacci_inefficient(n-1)
@@ -61,13 +62,14 @@ def time_fibonacci_ineff(n):
 	t_start = time.time()
 	fib_n = fibonacci_inefficient( n )
 	t_end = time.time()
-	t_fib = t_end - t_start
+	delta_t = t_end - t_start
+	t_fib = delta_t * 1000000
 	print( f"\tfibonacci_inefficient({n}) = {fib_n}" )
-	print( f"\tcompleted in {t_fib} seconds" )
+	print( f"\tcompleted in {t_fib} microseconds" )
 	return t_fib
 
 def main():
-    time_fibonacci_eff(4)
-    time_fibonacci_ineff(4)
+    time_fibonacci_eff(6)
+    time_fibonacci_ineff(6)
 
 main()
