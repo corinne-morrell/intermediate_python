@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 def fib_efficient(n, sym_tables, sequence):
     ''' Efficiently calculates the n-th term of the Fibonacci sequence '''
 
+    # Establish base case
     if n <= 2:
         return 1
 
@@ -29,6 +30,7 @@ def fib_efficient(n, sym_tables, sequence):
 def fib_inefficient(n, sym_tables):
 	''' Inefficiently calculates the n-th term of the Fibonacci sequence '''
 	
+    # Increment symbol table counter for each function call
 	sym_tables[0] += 1
     
 	fib_n = 0
@@ -42,44 +44,61 @@ def fib_inefficient(n, sym_tables):
 	return fib_n
 
 def time_efficient(n):
-	''' Time the fib_efficient() function as it calculates the n-th Fibonacci number. Returns the time in seconds. '''
-	#print( f"Calculating the {n}-th Fibonacci number..." )
+	''' Time the fib_efficient() function as it calculates the n-th Fibonacci number. Returns the time in microseconds
+    and the number of symbol tables created. '''
+	
+	# Create a dictionary for Fibonacci numbers already calculated
 	fib_sequence = {}
+
+	# Set initial number of symbol tables to 0
 	num_tables = [0]
+
+	# Calculate runtime
 	t_start = time.time()
 	fib_n= fib_efficient(n, num_tables, fib_sequence)
 	t_end = time.time()
 	delta_t = t_end - t_start
 	t_fib = delta_t * 1000000
+
+	#print( f"Calculating the {n}-th Fibonacci number..." )
 	#print( f"\tfib_efficient({n}) = {fib_n}" )
 	#print( f"\tcompleted in {t_fib} microseconds" )
 	#print( f"\tsymbol tables created = {num_tables}" )
+
 	return t_fib, num_tables
 
 def time_inefficient(n):
-	''' Time the fibonacci() function as it calculates the n-th Fibonacci number. Returns the time in seconds. '''
-	#print( f"Calculating the {n}-th Fibonacci number..." )
+	''' Time the fibonacci() function as it calculates the n-th Fibonacci number. Returns the time in microseconds
+    and the number of symbol tables created. '''
+	
+    # Set initial number of symbol tables to 0
 	num_tables = [0]
+
+	# Calculate runtime
 	t_start = time.time()
 	fib_n = fib_inefficient( n, num_tables )
 	t_end = time.time()
 	delta_t = t_end - t_start
 	t_fib = delta_t * 1000000
+
+	#print( f"Calculating the {n}-th Fibonacci number..." )
 	#print( f"\tfib_inefficient ({n}) = {fib_n}" )
 	#print( f"\tcompleted in {t_fib} microseconds" )
 	#print( f"\tsymbol tables created = {num_tables}" )
 	return t_fib, num_tables
 
 def plot_results():
+    ''' Runs trials for fib_efficient and fib_inefficient and plots runtime and memory requirements
+    as the index of the Fibonacci sequence increases. '''
 
+    # Create lists for storing values for each trial and each index (n)
     eff_runtime = []
     eff_memory = []
-
     ineff_runtime = []
     ineff_memory = []
-
     fib_index = []
 
+    # Run trials for the first 10 Fibonacci numbers
     for n in range(1, 11):
         fib_index.append(n)
 
@@ -113,10 +132,8 @@ def plot_results():
 
     plt.show()
 
-
-    
-
 def main():
     plot_results()
 
-main()
+if __name__ == "__main__":
+    main()
