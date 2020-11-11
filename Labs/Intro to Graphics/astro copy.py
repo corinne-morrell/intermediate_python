@@ -41,8 +41,8 @@ class Planet(gr.Circle):
 		self.name.draw(win)
 
 	def disable(self): # undraw the Planet object
-		self.undraw(win)
-		self.name.undraw(win)
+		self.undraw()
+		self.name.undraw()
 
 def createSpace():
 	'''Creates a black graphics window. Returns a GraphWin object.'''

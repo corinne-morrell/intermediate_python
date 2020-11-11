@@ -41,8 +41,8 @@ class Planet(gr.Circle):
 		self.name.draw(win)
 
 	def disable(self): # undraw the Planet object
-		self.undraw(win)
-		self.name.undraw(win)
+		self.undraw()
+		self.name.undraw()
 
 def createSpace():
 	'''Creates a black graphics window. Returns a GraphWin object.'''
@@ -65,6 +65,8 @@ def createSun(win):
 
 	sun.setFill("yellow")
 	sun.draw(win)
+	
+	return sun
 
 
 '''def createMars():
@@ -87,14 +89,14 @@ def animateOrbits():
 	delay = 0.01'''
 
 
-def testPlanet(win):
+def testPlanet(win, sun):
 	
 	mars_x = 400
 	mars_y = win.getHeight() / 2
 
 	t = 0.0
 	dt = 0.01
-	delay = 0.01
+	delay = 0.0001
 
 	mars_orbit_radius = 400 - win.getWidth() / 2
 	#solar_center = gr.Point(win.getWidth() / 2, win.getHeight()/ 2)
@@ -113,16 +115,16 @@ def testPlanet(win):
 		if key == "n":
 			neptune.enable(win)
 		if key == "Return":
-			orbit = True
-		while orbit == True:
-			new_mars_x, new_mars_y = mars_x + mars_orbit_radius * math.cos(t), mars_y + mars_orbit_radius * math.sin(t)
-			center = mars.getCenter()
-			mars.move(new_mars_x - center.getX(), new_mars_y - center.getY())
-			mars.name.move(new_mars_x - center.getX(), new_mars_y - center.getY())
+			while key != "Escape":
+				key = win.checkKey()
+				new_mars_x, new_mars_y = sun.getCenter().getX() + mars_orbit_radius * math.cos(t), sun.getCenter().getY() + mars_orbit_radius * math.sin(t)
+				center = mars.getCenter()
+				mars.move(new_mars_x - center.getX(), new_mars_y - center.getY())
+				mars.name.move(new_mars_x - center.getX(), new_mars_y - center.getY())
 			
-			t = (t + dt) % (2 * math.pi)
+				t = (t + dt) % (2 * math.pi)
 
-			time.sleep(delay)
+				time.sleep(delay)
 
 	
 def welcome_screen( win ):
@@ -162,6 +164,6 @@ def welcome_screen( win ):
 if __name__ == "__main__":
 	win = createSpace()
 	welcome_screen(win)
-	createSun(win)
-	testPlanet(win)
-	win.Close()
+	sun = createSun(win)
+	testPlanet(win, sun)
+	win.close()

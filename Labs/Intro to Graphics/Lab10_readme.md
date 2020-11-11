@@ -1,41 +1,63 @@
 ## How to Run
 -----
-To run this program from the terminal, enter `python astro.py`.
+To run this program from the terminal, enter `python Lab10.py`.
 
 ## Inputs
 -----
-The program does not require inputs to run, but it is interactive. Entering `m` draws the planet Mars, entering `n` draws 
+The program does not require inputs to run, but it is interactive. 
+
+### Interactive Elements
+
+- Clicking will exit the welcome screen
+- Pressing `m` draws the planet Mars
+- Pressing `return` animates the orbital motion of Mars
+- Pressing `escape` will close the window and quit the program
 
 ## Outputs
 -----
-The program generates a graph with two subplots. The first subplot displays the runtime for efficient and inefficient Fibonacci calculators as the index of the Fibonacci sequence increases. The second subplot displays the memory requirements for the efficient and inefficient calculators.
+The program creates an animated simulation of a simplified version of Mars' orbit around the Sun. The simulation is *not* to scale.
 
-![Example Output](https://i.imgur.com/qqSohfH.jpg)
+![Example Output](https://i.imgur.com/7pqUOtP.png)
+> The welcome screen with instructions for how to interact with the simulation.
+
+![Example Output](https://i.imgur.com/QEbQBbz.png)
+> A still shot of Mars orbiting the Sun.
 
 ## Findings
 -----
 
-Storing the calculated Fibonacci numbers in a dictionary allowed the efficient implementation to outperform the inefficient implementation. By storing the calculated values, this cut down on the number of recursive calls made by fib_efficient. On the other hand, fib_inefficient performed much slower and had greater memory requirements because it had to recalculate the previous Fibonacci number multiple times within a single trial.
+- This is the most exciting thing I've done in Python to date.
+- Animating circular motion using `graphics.py` is pretty tricky.
+- Having a `Planet` class will be extremely useful as I continue to develop this simulation by adding more planets!
+- I may create an `orbit` function within the `Planet` class in future implementations.
+- I hope NASA's programmers earn generous salaries.
 
 
 ## Concept Map
 -----
 
-No concept map was assigned for this program.
+To prepare for this lab, I created a simple flowchart.
+
+![Concept Map](https://i.imgur.com/lLaU0Q4.jpg)
+
+Orbital motion was the most challenging element of this implementation. Furthermore, the orbital motion in this animation is an *extremely simplified version* of Mars' *actual* orbit. Planets don't orbit in perfect circles. My next hurdle as I continue to develop this program will be to simulate more realistic orbital motion using Newton's Universal Law of Gravitation.
 
 ## Collaborators
 -----
 
-Nisa Genc found an article on Stack Overflow that suggested the use of memoization during our team brainstorming meeting.
-
-Devon Gardner helped me to debug my code when I ran into some problems with the symbol table counter.
+Devon Gardner helped me create my Planet class. Devon also helped me debug my orbital motion, because Mars initially decided to orbit its own starting point and then crash into the Sun.
 
 ## References
 -----
 
-Stack Overflow. (2013, Aug 11.) *Efficient Calculation of Fibonacci Series.* https://stackoverflow.com/questions/18172257/efficient-calculation-of-fibonacci-series
-> This source served as the inspiration to implement memoization.
+Downey, A.B. (2002.) Labs. In Miller, B., & Ranum, D. (Interactive Ed.), *How to Think Like A Computer Scientist: Astronomy Animation.* Runestone Interactive Project, Luther College. https://runestone.academy/runestone/books/published/thinkcspy/Labs/astronomylab.html
+> This lab in our interactive textbook served as the inspiration for this program.
 
+Eaton, C. (2020.) *Rain Interactive.* New College of Florida.
+> I borrowed Professor Eaton's `welcome_screen` function in my implementation.
 
-Tech With Tim. (2017, Oct 8.) *Recursion and Memoization Tutorial Python.* https://www.youtube.com/watch?v=sCecRPSQg6Y
-> This source helped me to actually implement memoization.
+Stack Overflow. (2017, Jan 9.) *Get Circle to Orbit with Given Equations Using Python Graphics Module.* https://stackoverflow.com/questions/22695590/get-circle-to-orbit-with-given-equations-using-python-graphics-py-module
+> For some reason, I had a mental lapse when it came to converting circular motion into a linear equation. This source helped me to realize that I simply needed to calculate points along the circular orbit and move the planet to those new points. The motion equations I implemented in my program are borrowed from this solution, but they still required significant debugging.
+
+Zelle, J. *Graphics Reference.*
+> I referenced this source when creating `graphics.py` objects and using the `graphics.py` package's mutator methods.
