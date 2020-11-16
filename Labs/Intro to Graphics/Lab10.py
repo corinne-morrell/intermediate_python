@@ -49,7 +49,7 @@ def createSpace():
 	'''
 
 	# Create a black window
-	winWidth = 1000
+	winWidth = 1400
 	winHeight = 800
 	win = gr.GraphWin("The Solar System", winWidth, winHeight, autoflush=False)
 	win.setBackground("black")
