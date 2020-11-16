@@ -13,6 +13,7 @@
 import graphics as gr
 import math
 import time
+import sys
 
 class Planet(gr.Circle):
 	'''
@@ -34,6 +35,8 @@ class Planet(gr.Circle):
 		self.path_color = path_color
 		self.mass = mass
 		self.v_aphelion = v_aphelion
+		self.theta = 0.0
+		self.time = 0.0
 
 	def getInitXY(self):
 		return self.initial_position
@@ -42,7 +45,7 @@ class Planet(gr.Circle):
 		return self.name
 
 	def getAxis(self):
-		scaledAxis = self.semimajor_axis / 10**(-9)
+		scaledAxis = self.semimajor_axis
 		return scaledAxis
 
 	def getEcc(self):
@@ -52,11 +55,11 @@ class Planet(gr.Circle):
 		return self.path_color
 
 	def getMass(self):
-		scaledMass = self.mass / 10**(-9)
+		scaledMass = self.mass
 		return scaledMass
 
 	def getVel(self):
-		scaledVel = self.v_aphelion / 10**(-9)
+		scaledVel = self.v_aphelion
 		return scaledVel
 
 	def enable(self, win): # draw the Planet object in the window
@@ -68,71 +71,64 @@ class Planet(gr.Circle):
 		self.name.undraw()
 
 	def orbit(self, sun):
-		key = win.checkKey()
-		theta = 0.0
-		time = 0.0
+
+		
+		solar_mass = 1.989e30
+
+		G = 6.67428e-11
+
 		dtheta = 0.001
 		dtime = 0.01
-		#orbits = 0
 
-		while key != "Escape":
-			key = win.checkKey()
+		self.theta = (self.theta + dtheta) % (2 * math.pi)
+		self.time = self.time + dtime
 
-			solar_mass = 1.989e30 / 10**(-9)
+		self.r = (self.getAxis() * (1 - (self.getEcc())**2)) / (1 + self.getEcc() * math.cos(self.theta))
+		self.r_prime = math.sqrt(self.r**2 + (4 * self.getAxis() * self.getEcc() * (self.getAxis() * self.getEcc() + self.r * math.cos(self.theta))))
 
-			G = 6.67428e-11
+		self.f_gravity = G * self.getMass() * solar_mass / ((self.r_prime)**2)
 
-			initX = self.getInitXY().getX()
-			initY = self.getInitXY().getY()
+		self.fx = math.cos(self.theta) * self.f_gravity
+		self.fy = math.sin(self.theta) * self.f_gravity
 
-			axis = self.getAxis()
-			ecc = self.getEcc()
-			r = (axis * (1 - ecc ** 2)) / (1 + ecc * math.cos(theta))
-			r_prime = math.sqrt(r**2 + (4 * axis * ecc * (axis * ecc + r * math.cos(theta))))
+		self.velX = math.cos(self.theta) * self.getVel()
+		self.velY = math.sin(self.theta) * self.getVel()
 
-			f_gravity = G * self.mass * solar_mass / (r_prime**2)
+		self.accX = self.fx / self.getMass()
+		self.accY = self.fy / self.getMass()
 
-			fx = math.cos(theta) * f_gravity
-			fy = math.sin(theta) * f_gravity
+		self.currentX = (self.getCenter().getX()) / 10**4
+		self.currentY = (self.getCenter().getY()) / 10**4
 
-			v_init = self.getVel()
-			v_init_x = (math.cos(theta) * v_init)
-			v_init_y = (math.sin(theta) * v_init)
+		self.newX = self.currentX + (self.velX * self.time) + ( 0.5 * self.accX * (self.time)**2)
+		self.newY = self.currentY + (self.velY * self.time) + ( 0.5 * self.accY * (self.time)**2)
 
-			accX = (fx / self.getMass())
-			accY = (fy / self.getMass())
+		self.dx = self.newX - self.currentX
+		self.dy = self.newY - self.currentY
 
-			newX = initX + (v_init_x * time) + ( 0.5 * accX * time**2)
-			newY = initY + (v_init_y * time) + ( 0.5 * accY * time**2)
+		self.move(self.dx, self.dy)
+		self.name.move(self.dx, self.dy)
 
-			currentX = self.getCenter().getX()
-			currentY = self.getCenter().getY()
+		sys.stdout.write("\rcurrent position: {0}, {1}\ndistance from sun: {2}\nforce gravity: {3}\nacceleration: {4}, {5}\nnew position: {6}, {7}\ndx, dy: {8}, {9}".format(self.currentX, self.currentY, self.r_prime, self.f_gravity, self.accX, self.accY, self.newX, self.newY, self.dx, self.dy))
+		sys.stdout.flush()
 
-			dx = newX - currentX
-			dy = newY - currentY
 
-			self.move(dx, dy)
-			self.name.move(dx, dy)
+		'''# Temporarily undraw Mars and plot orbit path
+		planet.disable()
 
-			theta = (theta + dtheta) % (2 * math.pi)
-			time = time + dtime
+		# If new coordinates equal initial coordinates, Mars has completed one orbit
+		planet_initX = solar_centerX + planet.getAxis()
+		planet_initY = solar_centerY + planet.getAxis()
+		if new_x == planet_initX and new_y == planet_initY:
+			orbits += 1
+		if orbits <= 1:
+			planet_path = gr.Point(planet_centerX, planet_centerY)
+			color = planet.getPath()
+			planet_path.setFill(color)
+			planet_path.draw(win)
 
-			'''# Temporarily undraw Mars and plot orbit path
-			planet.disable()
-
-			# If new coordinates equal initial coordinates, Mars has completed one orbit
-			planet_initX = solar_centerX + planet.getAxis()
-			planet_initY = solar_centerY + planet.getAxis()
-			if new_x == planet_initX and new_y == planet_initY:
-				orbits += 1
-			if orbits <= 1:
-				planet_path = gr.Point(planet_centerX, planet_centerY)
-				color = planet.getPath()
-				planet_path.setFill(color)
-				planet_path.draw(win)
-
-			# Re-draw Mars on top of orbit path
-			planet.enable(win)'''
+		# Re-draw Mars on top of orbit path
+		planet.enable(win)'''
 
 
 
@@ -213,24 +209,22 @@ def createInnerPlanets(sun):
 
 def animateOrbits(win, sun):
 
-	key = win.getKey()
-	planet_list = []
+	planet_list = [*createInnerPlanets(sun)]
 
-	if key == "i":
-		mercury, venus, earth, mars = createInnerPlanets(sun)
-		planet_list.append(mercury)
-		planet_list.append(venus)
-		planet_list.append(earth)
-		planet_list.append(mars)
+	key = ""
 
-	for planet in planet_list:
-		planet.enable(win)
-		
 	key = win.getKey()
 	if key == "Return":
 		for planet in planet_list:
-			planet.orbit(sun)
+			planet.enable(win)
+		while key != "Escape":
+			key = win.checkKey()
+			for planet in planet_list:
+				planet.orbit(sun)
 			gr.update(60)
+
+
+				
 
 
 def welcome_screen(win):
